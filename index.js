@@ -67,17 +67,18 @@ const validateNumber = (req, res, next) => {
 // server.listen
 app.get("/api/v1/classify-number", validateNumber, async (req, res) => {
   const { number } = req.query;
+  const num = parseInt(number);
 
-  const properties = number % 2 === 0 ? ["even"] : ["odd"];
-  if (isArmstrong(number)) properties.push("armstrong");
+  const properties = num % 2 === 0 ? ["even"] : ["odd"];
+  if (isArmstrong(num)) properties.unshift("armstrong");
 
   res.status(200).json({
-    number: number,
-    is_prime: isPrime(number),
-    is_perfect: isPerfect(number),
+    number: num,
+    is_prime: isPrime(num),
+    is_perfect: isPerfect(num),
     properties,
-    digit_sum: [...String(number)].reduce((sum, d) => sum + parseInt(d), 0),
-    fun_fact: await getFunFact(number),
+    digit_sum: [...String(num)].reduce((sum, d) => sum + parseInt(d), 0),
+    fun_fact: await getFunFact(num),
   });
 });
 
