@@ -51,17 +51,17 @@ async function getFunFact(number) {
 // server.listen
 app.get("/api/v1/classify-number", async (req, res) => {
   const { number } = req.query;
+  const num = parseInt(number);
 
   if (
     !number ||
     isNaN(number) ||
-    parseInt(number) < 0 ||
-    !Number.isInteger(parseFloat(number))
+    !Number.isInteger(Number(number)) ||
+    Number(number) < 0
   ) {
     return res.status(400).json({ number, error: true });
   }
 
-  const num = parseInt(number);
   const properties = num % 2 === 0 ? ["even"] : ["odd"];
   if (isArmstrong(num)) properties.push("armstrong");
 
