@@ -48,30 +48,36 @@ async function getFunFact(number) {
   }
 }
 
-// server.listen
-app.get("/api/v1/classify-number", async (req, res) => {
+// Validation middleware
+const validateNumber = (req, res, next) => {
   const { number } = req.query;
-  const num = parseInt(number);
 
-  if (
-    !number ||
-    isNaN(number) ||
-    !Number.isInteger(Number(number)) ||
-    Number(number) < 0
-  ) {
+  if (number === undefined || number === "") {
     return res.status(400).json({ number, error: true });
   }
 
-  const properties = num % 2 === 0 ? ["even"] : ["odd"];
-  if (isArmstrong(num)) properties.push("armstrong");
+  if (isNaN(number) || !Number.isInteger(Number(number))) {
+    return res.status(400).json({ number, error: true });
+  }
+
+  req.number = parseInt(number);
+  next();
+};
+
+// server.listen
+app.get("/api/classify-number", validateNumber, async (req, res) => {
+  const { number } = req.query;
+
+  const properties = number % 2 === 0 ? ["even"] : ["odd"];
+  if (isArmstrong(number)) properties.push("armstrong");
 
   res.status(200).json({
-    number: num,
-    is_prime: isPrime(num),
-    is_perfect: isPerfect(num),
+    number: number,
+    is_prime: isPrime(number),
+    is_perfect: isPerfect(number),
     properties,
-    digit_sum: [...String(num)].reduce((sum, d) => sum + parseInt(d), 0),
-    fun_fact: await getFunFact(num),
+    digit_sum: [...String(number)].reduce((sum, d) => sum + parseInt(d), 0),
+    fun_fact: await getFunFact(number),
   });
 });
 
