@@ -1,0 +1,19 @@
+{
+  "name": "secon_hng",
+  "version": "1.0.0",
+  "description": "secon hng task",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "start:prod": "NODE_ENV=production nodemon index.js"
+  },
+  "author": "umarfse",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
