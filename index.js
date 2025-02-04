@@ -51,7 +51,13 @@ async function getFunFact(number) {
 // server.listen
 app.get("/api/v1/classify-number", async (req, res) => {
   const { number } = req.query;
-  if (isNaN(number)) {
+
+  if (
+    !number ||
+    isNaN(number) ||
+    parseInt(number) < 0 ||
+    !Number.isInteger(parseFloat(number))
+  ) {
     return res.status(400).json({ number, error: true });
   }
 
