@@ -65,7 +65,7 @@ const validateNumber = (req, res, next) => {
 };
 
 // server.listen
-app.get("/api/classify-number", validateNumber, async (req, res) => {
+app.get("/api/v1/classify-number", validateNumber, async (req, res) => {
   const { number } = req.query;
 
   const properties = number % 2 === 0 ? ["even"] : ["odd"];
